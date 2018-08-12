@@ -58,7 +58,7 @@ $(function() {
          * hiding/showing of the menu element.
          */
         it('menu element is hidden by default', function() {
-            
+            expect($('body').hasClass('menu-hidden')).toBe(true);
         });
 
          /* TODO: Write a test that ensures the menu changes
@@ -67,9 +67,14 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
         it('menu element changes visibility when icon is clicked', function() {
-            
+            $('.menu-icon-link').trigger('click');              
+            expect($('body').hasClass('menu-hidden')).toBe(false);
+
+            $('.menu-icon-link').trigger( "click" );              
+            expect($('body').hasClass('menu-hidden')).toBe(true);
         });
     });
+
 
     /* TODO: Write a new test suite named "Initial Entries" */
     describe('Initial Entries', function() {
@@ -84,6 +89,7 @@ $(function() {
         });
     });
 
+
     /* TODO: Write a new test suite named "New Feed Selection" */
     describe('New Feed Selection', function() {
         /* TODO: Write a test that ensures when a new feed is loaded
@@ -93,6 +99,5 @@ $(function() {
         it('when new feed is loaded by loadFeed, content changes', function() {
             
         });
-
     });
 }());
