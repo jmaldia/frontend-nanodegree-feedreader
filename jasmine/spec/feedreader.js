@@ -85,10 +85,9 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-        beforeEach(function(done) {
+        beforeEach(function() {
             loadFeed(0);
-            done();
-        })
+        });
 
         it('loadFeed contains at least a single .entry within .feed container', function() {
             const entry = $('.feed');
@@ -105,8 +104,25 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+        let entryOne, entryTwo;
+
+        beforeEach(function(done) {
+            const entry = $('.feed');
+
+            $('.feed').empty();
+            loadFeed(0, function() {
+                entryOne = entry.find(allFeeds.url);
+                done();
+            });
+            loadFeed(1, function() {
+                entryTwo = entry.find(allFeeds.url);
+                done();
+            });
+        });
+
         it('when new feed is loaded by loadFeed, content changes', function() {
-            expect(false).toBe(true);
+            console.log(entryOne, entryTwo);
+            expect(entryOne).not.toBe(entryTwo);
         });
     });
 }());
