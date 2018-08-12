@@ -85,15 +85,17 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-        beforeEach(function() {
-            loadFeed(0);
+        beforeEach(function(done) {
+            loadFeed(0, () => {
+                done();
+            });
         });
 
         it('loadFeed contains at least a single .entry within .feed container', function() {
-            const entry = $('.feed');
             // If loadfeed does not contain at least an entry, 
             // the length of the element inside the .feed class will be 0
-            expect(entry.children.length).toBeGreaterThan(0);
+            const entry = $('.feed .entry');
+            expect(entry.html().length).toBeGreaterThan(0);
         });
     });
 
@@ -106,21 +108,22 @@ $(function() {
          */
         // Variables to hold values that will be used for comparison
         let entryOne, entryTwo;
+        const entry = $('.feed');
         // This will load the feeds to compare      
         beforeEach(function(done) {
-            const entry = $('.feed');
             // The following loads different feeds and grabs the length of the resulting feed
             // The length is stored in variables
             // The done is needed to tell Jasmine that this is Asynchronous
             loadFeed(0, function() {
-                entryOne = entry.html().length;
-                done();
-            });
-            loadFeed(1, function() {
-                entryTwo = entry.html().length;
-                done();
+                entryOne = entry.html();
+                
+                loadFeed(1, function() {
+                    entryTwo = entry.html();
+                    done();
+                });
             });
         });
+
         // The test to compare the 2 values from the previous calls
         it('when new feed is loaded by loadFeed, content changes', function() {
             expect(entryOne).not.toEqual(entryTwo);
