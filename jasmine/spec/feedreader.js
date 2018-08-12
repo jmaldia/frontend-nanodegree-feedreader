@@ -109,19 +109,19 @@ $(function() {
         beforeEach(function(done) {
             const entry = $('.feed');
 
-            $('.feed').empty();
             loadFeed(0, function() {
-                entryOne = entry.find(allFeeds.url);
+                entryOne = entry.html().length;
+                console.log(entryOne);
                 done();
             });
             loadFeed(1, function() {
-                entryTwo = entry.find(allFeeds.url);
+                entryTwo = entry.html().length;
+                console.log(entryTwo);
                 done();
             });
         });
 
         it('when new feed is loaded by loadFeed, content changes', function() {
-            console.log(entryOne, entryTwo);
             expect(entryOne).not.toBe(entryTwo);
         });
     });
