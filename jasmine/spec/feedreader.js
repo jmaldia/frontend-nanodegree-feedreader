@@ -104,25 +104,26 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+        // Variables to hold values that will be used for comparison
         let entryOne, entryTwo;
-
+        // This will load the feeds to compare      
         beforeEach(function(done) {
             const entry = $('.feed');
-
+            // The following loads different feeds and grabs the length of the resulting feed
+            // The length is stored in variables
+            // The done is needed to tell Jasmine that this is Asynchronous
             loadFeed(0, function() {
                 entryOne = entry.html().length;
-                console.log(entryOne);
                 done();
             });
             loadFeed(1, function() {
                 entryTwo = entry.html().length;
-                console.log(entryTwo);
                 done();
             });
         });
-
+        // The test to compare the 2 values from the previous calls
         it('when new feed is loaded by loadFeed, content changes', function() {
-            expect(entryOne).not.toBe(entryTwo);
+            expect(entryOne).not.toEqual(entryTwo);
         });
     });
 }());
